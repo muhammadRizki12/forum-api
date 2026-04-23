@@ -1,11 +1,11 @@
+import autoBind from 'auto-bind';
 import ReplyUseCase from '../../../../Applications/use_case/ReplyUseCase.js';
 
 class ThreadsHandler {
   constructor(container) {
     this._container = container;
 
-    this.postReplyHandler = this.postReplyHandler.bind(this);
-    this.deleteReplyHandler = this.deleteReplyHandler.bind(this);
+    autoBind(this);
   }
 
   async postReplyHandler(req, res, next) {

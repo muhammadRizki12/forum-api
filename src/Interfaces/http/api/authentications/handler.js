@@ -1,13 +1,11 @@
+import autoBind from 'auto-bind';
 import AuthenticationUseCase from '../../../../Applications/use_case/AuthenticationUseCase.js';
 
 class AuthenticationsHandler {
   constructor(container) {
     this._container = container;
 
-    this.postAuthenticationHandler = this.postAuthenticationHandler.bind(this);
-    this.putAuthenticationHandler = this.putAuthenticationHandler.bind(this);
-    this.deleteAuthenticationHandler =
-      this.deleteAuthenticationHandler.bind(this);
+    autoBind(this);
   }
 
   async postAuthenticationHandler(req, res, next) {

@@ -1,11 +1,11 @@
+import autoBind from 'auto-bind';
 import ThreadUseCase from '../../../../Applications/use_case/ThreadUseCase.js';
 
 class ThreadsHandler {
   constructor(container) {
     this._container = container;
 
-    this.postThreadHandler = this.postThreadHandler.bind(this);
-    this.getThreadDetailHandler = this.getThreadDetailHandler.bind(this);
+    autoBind(this);
   }
 
   async postThreadHandler(req, res, next) {

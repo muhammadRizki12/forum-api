@@ -1,10 +1,11 @@
+import autoBind from 'auto-bind';
 import AddUserUseCase from '../../../../Applications/use_case/AddUserUseCase.js';
 
 class UsersHandler {
   constructor(container) {
     this._container = container;
 
-    this.postUserHandler = this.postUserHandler.bind(this);
+    autoBind(this);
   }
 
   async postUserHandler(req, res, next) {

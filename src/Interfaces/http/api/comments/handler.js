@@ -1,10 +1,11 @@
+import autoBind from 'auto-bind';
 import CommentUseCase from '../../../../Applications/use_case/CommentUseCase.js';
+
 class CommentsHandler {
   constructor(container) {
     this._container = container;
 
-    this.postCommentHandler = this.postCommentHandler.bind(this);
-    this.deleteCommentHandler = this.deleteCommentHandler.bind(this);
+    autoBind(this);
   }
 
   async postCommentHandler(req, res, next) {
