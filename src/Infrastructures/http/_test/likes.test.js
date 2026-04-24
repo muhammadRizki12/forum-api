@@ -36,7 +36,7 @@ describe('/threads/{threadId}/comments/{commentId}/likes endpoint', () => {
           username: 'dicoding',
           password: 'secret',
         });
-      
+
       const accessToken = authenticationResponse.body.data.accessToken;
 
       const threadResponse = await request(app)
@@ -46,7 +46,7 @@ describe('/threads/{threadId}/comments/{commentId}/likes endpoint', () => {
           title: 'sebuah thread',
           body: 'isi thread',
         });
-      
+
       const threadId = threadResponse.body.data.addedThread.id;
 
       const commentResponse = await request(app)
@@ -80,7 +80,7 @@ describe('/threads/{threadId}/comments/{commentId}/likes endpoint', () => {
           username: 'dicoding',
           password: 'secret',
         });
-      
+
       const accessToken = authenticationResponse.body.data.accessToken;
 
       const threadResponse = await request(app)
@@ -90,7 +90,7 @@ describe('/threads/{threadId}/comments/{commentId}/likes endpoint', () => {
           title: 'sebuah thread',
           body: 'isi thread',
         });
-      
+
       const threadId = threadResponse.body.data.addedThread.id;
 
       const commentResponse = await request(app)
@@ -128,7 +128,7 @@ describe('/threads/{threadId}/comments/{commentId}/likes endpoint', () => {
           username: 'dicoding',
           password: 'secret',
         });
-      
+
       const accessToken = authenticationResponse.body.data.accessToken;
 
       const response = await request(app)
@@ -140,8 +140,9 @@ describe('/threads/{threadId}/comments/{commentId}/likes endpoint', () => {
 
     it('should response 401 if not authenticated', async () => {
       const app = await createServer(container);
-      const response = await request(app)
-        .put('/threads/thread-123/comments/comment-123/likes');
+      const response = await request(app).put(
+        '/threads/thread-123/comments/comment-123/likes',
+      );
 
       expect(response.status).toEqual(401);
     });
