@@ -1,14 +1,14 @@
 name: Continuous Deployment
- 
+
 on: 
   push:
     branches:
       - main
- 
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
- 
+
     steps:
     - name: SSH and deploy app
       uses: appleboy/ssh-action@master
@@ -18,8 +18,16 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
+          # 1. Tambahkan path environment standar
+          export PATH=$PATH:/usr/local/bin
+          
+          # 2. Paksa load NVM (Node Version Manager) ke dalam memori
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          
+          # 3. Jalankan script deployment seperti biasa
           cd /var/www/forum-api
           git pull origin main
           npm ci --omit=dev --no-audit --no-fund
           npm run migrate up
-          pm2 restart forum-api
+          pm2 restart forum-api --update-env
