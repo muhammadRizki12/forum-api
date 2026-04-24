@@ -8,6 +8,7 @@ import users from '../../Interfaces/http/api/users/index.js';
 import threads from '../../Interfaces/http/api/threads/index.js';
 import comments from '../../Interfaces/http/api/comments/index.js';
 import replies from '../../Interfaces/http/api/replies/index.js';
+import likes from '../../Interfaces/http/api/likes/index.js';
 
 const createServer = async (container) => {
   const app = express();
@@ -22,6 +23,7 @@ const createServer = async (container) => {
 
   app.use('/threads', comments(container));
   app.use('/threads', replies(container));
+  app.use('/threads', likes(container));
 
   // eslint-disable-next-line no-unused-vars
   app.use((error, req, res, next) => {

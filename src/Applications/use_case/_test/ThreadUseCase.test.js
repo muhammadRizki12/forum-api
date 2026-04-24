@@ -87,6 +87,7 @@ describe('ThreadUseCase', () => {
             username: 'johndoe',
             date: '2021-08-08T07:22:33.555Z',
             content: 'sebuah comment',
+            likeCount: 2,
             is_delete: false,
             replies: [
               {
@@ -103,6 +104,7 @@ describe('ThreadUseCase', () => {
             username: 'dicoding',
             date: '2021-08-08T08:07:01.522Z',
             content: 'ini konten komentar asli',
+            likeCount: 0,
             is_delete: true,
             replies: [],
           },
@@ -121,6 +123,7 @@ describe('ThreadUseCase', () => {
             username: 'johndoe',
             date: '2021-08-08T07:22:33.555Z',
             content: 'sebuah comment',
+            likeCount: 2,
             replies: [
               {
                 id: 'reply-123',
@@ -135,6 +138,7 @@ describe('ThreadUseCase', () => {
             username: 'dicoding',
             date: '2021-08-08T08:07:01.522Z',
             content: '**komentar telah dihapus**',
+            likeCount: 0,
             replies: [],
           },
         ],

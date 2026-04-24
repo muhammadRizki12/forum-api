@@ -2,6 +2,7 @@ import ThreadsTableTestHelper from '../../../../tests/ThreadsTableTestHelper.js'
 import UsersTableTestHelper from '../../../../tests/UsersTableTestHelper.js';
 import CommentsTableTestHelper from '../../../../tests/CommentsTableTestHelper.js';
 import RepliesTableTestHelper from '../../../../tests/RepliesTableTestHelper.js';
+import LikesTableTestHelper from '../../../../tests/LikesTableTestHelper.js';
 import NewThread from '../../../Domains/threads/entities/NewThread.js';
 import AddedThread from '../../../Domains/threads/entities/AddedThread.js';
 import pool from '../../database/postgres/pool.js';
@@ -10,6 +11,7 @@ import NotFoundError from '../../../Commons/exceptions/NotFoundError.js';
 
 describe('ThreadRepositoryPostgres', () => {
   afterEach(async () => {
+    await LikesTableTestHelper.cleanTable();
     await RepliesTableTestHelper.cleanTable();
     await CommentsTableTestHelper.cleanTable();
     await ThreadsTableTestHelper.cleanTable();
@@ -168,6 +170,17 @@ describe('ThreadRepositoryPostgres', () => {
         isDelete: true,
       });
 
+      await LikesTableTestHelper.addLike({
+        id: 'like-1',
+        commentId: 'comment-older',
+        owner: 'user-123',
+      });
+      await LikesTableTestHelper.addLike({
+        id: 'like-2',
+        commentId: 'comment-older',
+        owner: 'user-456',
+      });
+
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
 
       // Action
@@ -184,6 +197,7 @@ describe('ThreadRepositoryPostgres', () => {
       expect(threadDetail.comments).toHaveLength(2);
       expect(threadDetail.comments[0].id).toEqual('comment-older');
       expect(threadDetail.comments[0].content).toEqual('komentar lama');
+      expect(threadDetail.comments[0].likeCount).toEqual(2);
       expect(threadDetail.comments[0].is_delete).toEqual(false);
       expect(threadDetail.comments[0].replies).toHaveLength(2);
       expect(threadDetail.comments[0].replies[0].id).toEqual('reply-older');
@@ -198,6 +212,7 @@ describe('ThreadRepositoryPostgres', () => {
       expect(threadDetail.comments[0].replies[1].is_delete).toEqual(true);
       expect(threadDetail.comments[1].id).toEqual('comment-newer');
       expect(threadDetail.comments[1].content).toEqual('komentar baru');
+      expect(threadDetail.comments[1].likeCount).toEqual(0);
       expect(threadDetail.comments[1].is_delete).toEqual(true);
       expect(threadDetail.comments[1].replies).toStrictEqual([]);
     });

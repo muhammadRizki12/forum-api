@@ -56,7 +56,8 @@ class ThreadRepositoryPostgres extends ThreadRepository {
 
     const commentsQuery = {
       text: `
-        SELECT c.id, u.username, c.date, c.content, c.is_delete
+        SELECT c.id, u.username, c.date, c.content, c.is_delete, 
+               (SELECT COUNT(*)::int FROM user_comment_likes l WHERE l.comment_id = c.id) AS like_count
         FROM comments c
         LEFT JOIN users u ON u.id = c.owner
         WHERE c.thread_id = $1
@@ -118,6 +119,7 @@ class ThreadRepositoryPostgres extends ThreadRepository {
         date: comment.date.toISOString(),
         replies: repliesByCommentId[comment.id] || [],
         content: comment.content,
+        likeCount: comment.like_count || 0,
         is_delete: comment.is_delete,
       })),
     };

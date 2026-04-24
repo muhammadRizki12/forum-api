@@ -27,6 +27,7 @@ class ThreadUseCase {
         content: comment.is_delete
           ? '**komentar telah dihapus**'
           : comment.content,
+        likeCount: comment.likeCount,
         replies: comment.replies.map((reply) => ({
           id: reply.id,
           username: reply.username,
